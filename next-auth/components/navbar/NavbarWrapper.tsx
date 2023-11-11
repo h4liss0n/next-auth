@@ -7,6 +7,6 @@ import { Navbar } from './fragment/Navbar'
 export default async function NavbarWrapper() {
   const session = await getServerSession(OPTIONS)
   return (
-    <Navbar session={session} />
+    <Navbar />
   )
 }

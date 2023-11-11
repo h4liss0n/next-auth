@@ -7,7 +7,7 @@ import Photo from '../../../images/photo.jpeg'
 import Mark from '../../../images/mark.svg'
 import Link from 'next/link'
 import { Session } from 'next-auth'
-
+import { useSession } from "next-auth/react"
 
 const navigation = [
     { name: 'Projects', href: '/project', current: false },
@@ -17,11 +17,11 @@ function classNames(...classes: string[]): string {
     return classes.filter(Boolean).join(' ')
 }
 
-interface Props {
-    session: Session | null
-}
 
-export const Navbar: React.FC<Props> = ({ session }) => {
+export const Navbar: React.FC = () => {
+
+    const { data: session, status } = useSession()
+
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
