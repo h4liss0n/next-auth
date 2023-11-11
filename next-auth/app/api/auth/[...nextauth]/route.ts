@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client"
 import NextAuth, { NextAuthOptions, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
@@ -7,7 +8,7 @@ export const OPTIONS: NextAuthOptions = {
         CredentialsProvider({
             name: "Credential",
             credentials: {
-                username: {
+                email: {
                     label: "user",
                     type: "text",
                     placeholder: "email"
@@ -20,16 +21,19 @@ export const OPTIONS: NextAuthOptions = {
 
             },
             async authorize(credentials) {
-                const user: User = {
-                    id: "1",
-                    name: "halisson",
-                }
-                if (credentials?.username === "halisson") {
-                    return user
+                const prisma = new PrismaClient()
+                const user = await prisma.user.findUnique({ where: { email: credentials?.email } })
+                console.log(user)
+                if (user) {
+                    if (credentials?.password === user?.password) {
+                        return {
+                            id: user?.id,
+                            name: user?.name,
+                            email: user?.email
+                        }
+                    }
                 }
                 return null
-
-
             },
         })
     ]
