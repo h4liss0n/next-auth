@@ -1,5 +1,5 @@
 "use client"
-import { ProjectApi } from "@/api/ProjectApi";
+import { TaskApi } from "@/api/TaskApi";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
@@ -7,24 +7,32 @@ import { useCallback, useEffect, useState } from "react";
 
 
 interface Props {
-    projectId?: string
+    projectId: string
+    taskId?: string
 }
 
-const ProjectForm: React.FC<Props> = ({ projectId }) => {
+interface Task {
+    title: string
+    done: boolean
+}
+
+const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
     const router = useRouter()
 
-    const [formData, setFormData] = useState({
-        projectName: ""
+    const [formData, setFormData] = useState<Task>({
+        title: "",
+        done: false
     })
 
     const fetchData = useCallback(async () => {
-        if (projectId) {
-            const data = await ProjectApi.getProjectById(projectId)
+        if (taskId) {
+            const data = await TaskApi.getTaskById(taskId)
             setFormData({
-                projectName: data.name
+                title: data.title,
+                done: data.done
             })
         }
-    }, [projectId])
+    }, [taskId])
 
     useEffect(() => {
         fetchData()
@@ -43,33 +51,38 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
     }
 
     const create = () => {
-        return ProjectApi.postProject({ projectName: formData.projectName })
+        return TaskApi.postTask({
+            title: formData.title,
+            projectId: projectId,
+            done: false,
+        })
     }
 
-    const update = (projectId: string) => {
-        return ProjectApi.putProject(
-            {
-                projectId: projectId,
-                projectName: formData.projectName
-            }
+    const update = (id: string) => {
+        return TaskApi.putTask({
+            id: id,
+            title: formData.title,
+            projectId: projectId,
+            done: false
+        }
         )
     }
 
     const submitHandler = async (event: React.FormEvent) => {
         event.preventDefault()
-        const result = await (projectId ? update(projectId) : create())
+        const result = await (taskId ? update(taskId) : create())
         if (result.ok) {
             router.back()
         }
 
     }
 
-    const labels = projectId ? {
-        title: "Editing the Project",
-        submit: "Update the project"
+    const labels = taskId ? {
+        title: "Editing Task",
+        submit: "Update Task"
     } : {
-        title: "Create a new Project",
-        submit: "Create project"
+        title: "Create a new Task",
+        submit: "Create Task"
     }
 
     return (
@@ -83,17 +96,17 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={submitHandler}>
                         <div>
-                            <label htmlFor="projectName" className="block text-sm font-medium leading-6 text-gray-900">
-                                Project name
+                            <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
+                                Task name
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="projectName"
-                                    name="projectName"
+                                    id="title"
+                                    name="title"
                                     type="text"
                                     required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    value={formData.projectName}
+                                    value={formData.title}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -121,4 +134,4 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
     )
 }
 
-export default ProjectForm
+export default TaskForm
