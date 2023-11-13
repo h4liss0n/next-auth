@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, res: Response) {
         const subject = await TaskService.getTaskById(taskId)
         return NextResponse.json(subject)
     } else if (projectId) {
-        const subjects = await TaskService.getTaskByProjectId(projectId)
+        const subjects = await TaskService.getTasksByProjectId(projectId)
         return NextResponse.json(subjects)
     }
 }
@@ -39,12 +39,18 @@ export async function POST(req: Request, res: Response) {
 
 
 export async function PUT(req: Request, res: Response) {
-    const { taskId, title, done, projectId } = await req.json()
-    const subject = TaskService.updateTask(taskId, {
+    const { id, title, done, projectId } = await req.json()
+    const subject = TaskService.updateTask(id, {
         title: title,
         done: done,
         projectId: projectId
     })
+    return NextResponse.json(subject)
+}
+
+export async function PATCH(req: Request, res: Response) {
+    const { id, done } = await req.json()
+    const subject = TaskService.updateStatus(id, done)
     return NextResponse.json(subject)
 }
 

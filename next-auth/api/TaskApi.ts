@@ -58,6 +58,21 @@ export class TaskApi {
 
     }
 
+    static async updateStatus(id: string, done: boolean) {
+        const result = await fetch("/api/auth/task", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: id,
+                done: done
+            })
+        })
+        return result
+
+    }
+
     static async putTask(data: TaskPut) {
         const result = await fetch("/api/auth/task", {
             method: "PUT",
@@ -70,7 +85,7 @@ export class TaskApi {
 
     }
 
-    static async delProject(taskId: string) {
+    static async delTask(taskId: string) {
         const result = await fetch(`/api/auth/task`, {
             method: "DELETE",
             headers: {

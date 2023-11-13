@@ -1,5 +1,4 @@
 import ProjectForm from "@/components/project/ProjectForm"
-import { PrismaClient } from "@prisma/client"
 
 interface Props {
     params: {

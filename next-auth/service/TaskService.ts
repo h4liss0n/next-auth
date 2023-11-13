@@ -9,7 +9,7 @@ interface TaskCreate {
 const prisma = new PrismaClient()
 
 export class TaskService {
-    static async getTaskByProjectId(projectId: string = "") {
+    static async getTasksByProjectId(projectId: string = "") {
         const subjects = await prisma.task.findMany({
             where: {
                 projectId: projectId
@@ -45,6 +45,18 @@ export class TaskService {
                 title: data.title,
                 projectId: data.projectId,
                 done: data.done,
+            },
+        });
+        return subject
+    }
+
+    static async updateStatus(id: string, done: boolean) {
+        const subject = await prisma.task.update({
+            where: {
+                id: id,
+            },
+            data: {
+                done: done,
             },
         });
         return subject
