@@ -1,22 +1,17 @@
 "use client";
-import { TaskApi } from "@/api/TaskApi";
+import { ProjectApi } from "@/api/ProjectApi";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+
 import { useForm } from "react-hook-form";
-import { FormValues, formSchema } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema, FormValues } from "./schema";
 
 interface Props {
-  projectId: string;
-  taskId?: string;
+  projectId?: string;
 }
 
-interface Task {
-  title: string;
-  done: boolean;
-}
-
-const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
+const ProjectForm: React.FC<Props> = ({ projectId }) => {
   const router = useRouter();
 
   const {
@@ -29,12 +24,11 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
   });
 
   const fetchData = useCallback(async () => {
-    if (taskId) {
-      const data = await TaskApi.getTaskById(taskId);
-      setValue("title", data.title);
-      setValue("done", data.done);
+    if (projectId) {
+      const data = await ProjectApi.getProjectById(projectId);
+      setValue("projectName", data.name);
     }
-  }, [setValue, taskId]);
+  }, [projectId, setValue]);
 
   useEffect(() => {
     fetchData();
@@ -44,41 +38,35 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
     router.back();
   };
 
-  const create = (title: string, done: boolean) => {
-    return TaskApi.postTask({
-      title: title,
-      projectId: projectId,
-      done: done,
-    });
+  const create = (projectName: string) => {
+    return ProjectApi.postProject({ projectName: projectName });
   };
 
-  const update = (id: string, title: string, done: boolean) => {
-    return TaskApi.putTask({
-      id: id,
-      title: title,
+  const update = (projectId: string, projectName: string) => {
+    return ProjectApi.putProject({
       projectId: projectId,
-      done: done,
+      projectName: projectName,
     });
   };
 
   const submitForm = async (data: FormValues) => {
-    const { title, done } = data;
-    const result = await (taskId
-      ? update(taskId, title, done)
-      : create(title, done));
+    const { projectName } = data;
+    const result = await (projectId
+      ? update(projectId, projectName)
+      : create(projectName));
     if (result.ok) {
       router.back();
     }
   };
 
-  const labels = taskId
+  const labels = projectId
     ? {
-        title: "Editing Task",
-        submit: "Update Task",
+        title: "Editing the Project",
+        submit: "Update the project",
       }
     : {
-        title: "Create a new Task",
-        submit: "Create Task",
+        title: "Create a new Project",
+        submit: "Create project",
       };
 
   return (
@@ -93,34 +81,22 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
           <form className="space-y-6" onSubmit={handleSubmit(submitForm)}>
             <div>
               <label
-                htmlFor="title"
+                htmlFor="projectName"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Title
+                Project name
               </label>
               <div className="mt-2">
                 <input
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  {...register("title")}
+                  {...register("projectName")}
                 />
-                {errors.title && (
-                  <p className="text-xs text-red-400">{errors.title.message}</p>
+                {errors.projectName && (
+                  <p className="text-xs text-red-400">
+                    {errors.projectName.message}
+                  </p>
                 )}
               </div>
-            </div>
-            <div>
-              <div className=" flex items-center ">
-                <input id="done" type="checkbox" {...register("done")} />
-                <label
-                  htmlFor="done"
-                  className="mx-2 text-sm font-medium leading-6 text-gray-900"
-                >
-                  Status
-                </label>
-              </div>
-              {errors.done && (
-                <p className="text-xs text-red-400">{errors.done.message}</p>
-              )}
             </div>
             <div>
               <button
@@ -144,4 +120,4 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
   );
 };
 
-export default TaskForm;
+export default ProjectForm;
