@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom";
 import LoginForm from '@/components/login/LoginForm'
 import { render, screen } from '@testing-library/react'
 
