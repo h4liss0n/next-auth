@@ -1,9 +1,8 @@
 'use client'
 
-import { UserApi, UserCreate } from '@/api/UserApi'
+import { UserApi } from '@/api/UserApi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
 import { FormValues, formSchema } from './schema'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,7 +13,6 @@ export default function RegisterForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),

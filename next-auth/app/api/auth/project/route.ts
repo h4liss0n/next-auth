@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { OPTIONS } from '../[...nextauth]/route'
 import { ProjectService } from '@/service/ProjectService'
 
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const session = await getServerSession(OPTIONS)
   const projectId = searchParams.get('projectId')
@@ -20,7 +20,7 @@ export async function GET(req: NextRequest, res: Response) {
   }
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS)
   const { projectName } = await req.json()
 
@@ -33,8 +33,7 @@ export async function POST(req: Request, res: Response) {
   }
 }
 
-export async function PUT(req: Request, res: Response) {
-  const session = await getServerSession(OPTIONS)
+export async function PUT(req: Request) {
   const { projectId, projectName } = await req.json()
 
   const updatedProject = ProjectService.updateProject(projectId, projectName)
@@ -42,7 +41,7 @@ export async function PUT(req: Request, res: Response) {
   return NextResponse.json(updatedProject)
 }
 
-export async function DELETE(req: Request, res: Response) {
+export async function DELETE(req: Request) {
   const { projectId } = await req.json()
   const deletedProject = await ProjectService.deleteProject(projectId)
   return NextResponse.json(deletedProject)

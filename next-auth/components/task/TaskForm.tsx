@@ -1,7 +1,7 @@
 'use client'
 import { TaskApi } from '@/api/TaskApi'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormValues, formSchema } from './schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,11 +9,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 interface Props {
   projectId: string
   taskId?: string
-}
-
-interface Task {
-  title: string
-  done: boolean
 }
 
 const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {

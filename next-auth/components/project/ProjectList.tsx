@@ -1,7 +1,5 @@
 'use client'
 import { Project, ProjectApi } from '@/api/ProjectApi'
-import { TrashIcon, PlusIcon, PencilIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { ProjectHeader } from './ProjectHeader'
 import { ProjectTask } from './ProjectTask'

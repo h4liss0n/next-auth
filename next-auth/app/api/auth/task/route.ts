@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { OPTIONS } from '../[...nextauth]/route'
 import { TaskService } from '@/service/TaskService'
 
-export async function GET(req: NextRequest, res: Response) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const taskId = searchParams.get('taskId')
   const projectId = searchParams.get('projectId')
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, res: Response) {
   }
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const session = await getServerSession(OPTIONS)
   const { title, projectId } = await req.json()
 
@@ -31,7 +31,7 @@ export async function POST(req: Request, res: Response) {
   }
 }
 
-export async function PUT(req: Request, res: Response) {
+export async function PUT(req: Request) {
   const { id, title, done, projectId } = await req.json()
   const subject = TaskService.updateTask(id, {
     title: title,
@@ -41,13 +41,13 @@ export async function PUT(req: Request, res: Response) {
   return NextResponse.json(subject)
 }
 
-export async function PATCH(req: Request, res: Response) {
+export async function PATCH(req: Request) {
   const { id, done } = await req.json()
   const subject = TaskService.updateStatus(id, done)
   return NextResponse.json(subject)
 }
 
-export async function DELETE(req: Request, res: Response) {
+export async function DELETE(req: Request) {
   const { taskId } = await req.json()
   const subject = await TaskService.deleteTask(taskId)
   return NextResponse.json(subject)

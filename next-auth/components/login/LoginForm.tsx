@@ -20,7 +20,7 @@ export default function LoginForm() {
 
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault()
-    const result = await signIn('credentials', {
+    await signIn('credentials', {
       ...formData,
       callbackUrl: '/',
     })
