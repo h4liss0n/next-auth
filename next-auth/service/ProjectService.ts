@@ -1,21 +1,21 @@
-import { PrismaClient } from "@prisma/client";
-import { randomUUID } from "crypto";
+import { PrismaClient } from '@prisma/client'
+import { randomUUID } from 'crypto'
 
 interface ProjectCreate {
-  name: string;
-  userId: string;
+  name: string
+  userId: string
 }
 
 export class ProjectService {
-  static async getProjectsByUserId(userId: string = "") {
-    const prisma = new PrismaClient();
+  static async getProjectsByUserId(userId: string = '') {
+    const prisma = new PrismaClient()
     try {
       const projects = await prisma.project.findMany({
         where: {
           userId: userId,
         },
         orderBy: {
-          name: "asc",
+          name: 'asc',
         },
 
         include: {
@@ -27,30 +27,30 @@ export class ProjectService {
             },
           },
         },
-      });
-      return projects;
+      })
+      return projects
     } finally {
-      prisma.$disconnect();
+      prisma.$disconnect()
     }
   }
 
-  static async getProjectById(userId: string = "", projectId: string = "") {
-    const prisma = new PrismaClient();
+  static async getProjectById(userId: string = '', projectId: string = '') {
+    const prisma = new PrismaClient()
     try {
       const project = await prisma.project.findUnique({
         where: {
           userId: userId,
           id: projectId,
         },
-      });
-      return project;
+      })
+      return project
     } finally {
-      prisma.$disconnect();
+      prisma.$disconnect()
     }
   }
 
   static async createProject(data: ProjectCreate) {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient()
     try {
       const project = await prisma.project.create({
         data: {
@@ -58,15 +58,15 @@ export class ProjectService {
           name: data.name,
           userId: data.userId,
         },
-      });
-      return project;
+      })
+      return project
     } finally {
-      prisma.$disconnect();
+      prisma.$disconnect()
     }
   }
 
   static async updateProject(id: string, name: string) {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient()
     try {
       const updatedProject = await prisma.project.update({
         where: {
@@ -75,23 +75,23 @@ export class ProjectService {
         data: {
           name: name,
         },
-      });
-      return updatedProject;
+      })
+      return updatedProject
     } finally {
-      prisma.$disconnect();
+      prisma.$disconnect()
     }
   }
   static async deleteProject(id: string) {
-    const prisma = new PrismaClient();
+    const prisma = new PrismaClient()
     try {
       const deletedProject = await prisma.project.delete({
         where: {
           id: id,
         },
-      });
-      return deletedProject;
+      })
+      return deletedProject
     } finally {
-      prisma.$disconnect();
+      prisma.$disconnect()
     }
   }
 }
