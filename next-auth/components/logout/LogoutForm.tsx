@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { signOut } from 'next-auth/react'
+import { signOut } from 'next-auth/react';
 
 export default function LogoutForm() {
   const submitHandler = async (event: React.FormEvent) => {
-    event.preventDefault()
-    await signOut({ callbackUrl: '/' })
-  }
+    event.preventDefault();
+    await signOut({ callbackUrl: '/' });
+  };
 
   return (
     <>
@@ -31,5 +31,5 @@ export default function LogoutForm() {
         </div>
       </div>
     </>
-  )
+  );
 }

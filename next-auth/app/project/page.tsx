@@ -1,5 +1,5 @@
-import ProjectList from '@/components/project/ProjectList'
-import Link from 'next/link'
+import ProjectList from '@/components/project/ProjectList/ProjectList';
+import Link from 'next/link';
 
 export default async function ProjectPage() {
   return (
@@ -14,5 +14,5 @@ export default async function ProjectPage() {
       </Link>
       <ProjectList />
     </main>
-  )
+  );
 }

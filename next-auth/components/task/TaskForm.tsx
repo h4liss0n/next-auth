@@ -1,18 +1,18 @@
-'use client'
-import { TaskApi } from '@/api/TaskApi'
-import { useRouter } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { FormValues, formSchema } from './schema'
-import { zodResolver } from '@hookform/resolvers/zod'
+'use client';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormValues, formSchema } from './schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { getTaskById, postTask, putTask } from '@/api/TaskApi';
 
 interface Props {
-  projectId: string
-  taskId?: string
+  projectId: string;
+  taskId?: string;
 }
 
 const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -21,50 +21,50 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-  })
+  });
 
   const fetchData = useCallback(async () => {
     if (taskId) {
-      const data = await TaskApi.getTaskById(taskId)
-      setValue('title', data.title)
-      setValue('done', data.done)
+      const data = await getTaskById(taskId);
+      setValue('title', data.title);
+      setValue('done', data.done);
     }
-  }, [setValue, taskId])
+  }, [setValue, taskId]);
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchData();
+  }, [fetchData]);
 
   const cancelHandle = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   const create = (title: string, done: boolean) => {
-    return TaskApi.postTask({
+    return postTask({
       title: title,
       projectId: projectId,
       done: done,
-    })
-  }
+    });
+  };
 
   const update = (id: string, title: string, done: boolean) => {
-    return TaskApi.putTask({
+    return putTask({
       id: id,
       title: title,
       projectId: projectId,
       done: done,
-    })
-  }
+    });
+  };
 
   const submitForm = async (data: FormValues) => {
-    const { title, done } = data
+    const { title, done } = data;
     const result = await (taskId
       ? update(taskId, title, done)
-      : create(title, done))
+      : create(title, done));
     if (result.ok) {
-      router.back()
+      router.back();
     }
-  }
+  };
 
   const labels = taskId
     ? {
@@ -74,7 +74,7 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
     : {
         title: 'Create a new Task',
         submit: 'Create Task',
-      }
+      };
 
   return (
     <>
@@ -136,7 +136,7 @@ const TaskForm: React.FC<Props> = ({ projectId, taskId }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TaskForm
+export default TaskForm;

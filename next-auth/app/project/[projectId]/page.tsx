@@ -1,9 +1,9 @@
-import ProjectForm from '@/components/project/ProjectForm/ProjectForm'
+import ProjectForm from '@/components/project/ProjectForm/ProjectForm';
 
 interface Props {
   params: {
-    projectId: string
-  }
+    projectId: string;
+  };
 }
 
 const ProjectPage: React.FC<Props> = async ({ params: { projectId } }) => {
@@ -11,7 +11,7 @@ const ProjectPage: React.FC<Props> = async ({ params: { projectId } }) => {
     <>
       <ProjectForm projectId={projectId} />
     </>
-  )
-}
+  );
+};
 
-export default ProjectPage
+export default ProjectPage;

@@ -1,18 +1,17 @@
-'use client'
-import { ProjectApi } from '@/api/ProjectApi'
-import { useRouter } from 'next/navigation'
-import { useCallback, useEffect } from 'react'
-
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { formSchema, FormValues } from './schema'
+'use client';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { formSchema, FormValues } from './schema';
+import { getProjectById, postProject, putProject } from '@/api/ProjectApi';
 
 interface Props {
-  projectId?: string
+  projectId?: string;
 }
 
 const ProjectForm: React.FC<Props> = ({ projectId }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -21,43 +20,43 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-  })
+  });
 
   const fetchData = useCallback(async () => {
     if (projectId) {
-      const data = await ProjectApi.getProjectById(projectId)
-      setValue('projectName', data.name)
+      const data = await getProjectById(projectId);
+      setValue('projectName', data.name);
     }
-  }, [projectId, setValue])
+  }, [projectId, setValue]);
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchData();
+  }, [fetchData]);
 
   const cancelHandle = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   const create = (projectName: string) => {
-    return ProjectApi.postProject({ projectName: projectName })
-  }
+    return postProject({ projectName: projectName });
+  };
 
   const update = (projectId: string, projectName: string) => {
-    return ProjectApi.putProject({
+    return putProject({
       projectId: projectId,
       projectName: projectName,
-    })
-  }
+    });
+  };
 
   const submitForm = async (data: FormValues) => {
-    const { projectName } = data
+    const { projectName } = data;
     const result = await (projectId
       ? update(projectId, projectName)
-      : create(projectName))
+      : create(projectName));
     if (result.ok) {
-      router.back()
+      router.back();
     }
-  }
+  };
 
   const labels = projectId
     ? {
@@ -67,7 +66,7 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
     : {
         title: 'Create a new Project',
         submit: 'Create project',
-      }
+      };
 
   return (
     <>
@@ -117,7 +116,7 @@ const ProjectForm: React.FC<Props> = ({ projectId }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ProjectForm
+export default ProjectForm;

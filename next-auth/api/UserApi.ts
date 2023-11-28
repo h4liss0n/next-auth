@@ -1,7 +1,7 @@
 export interface UserCreate {
-  username: string
-  email: string
-  password: string
+  username: string;
+  email: string;
+  password: string;
 }
 
 export class UserApi {
@@ -12,7 +12,7 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-    return res
+    });
+    return res;
   }
 }

@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import { signIn } from 'next-auth/react'
-import Link from 'next/link'
-import { useState } from 'react'
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const submitHandler = async (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     await signIn('credentials', {
       ...formData,
       callbackUrl: '/',
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -103,5 +103,5 @@ export default function LoginForm() {
         </div>
       </div>
     </>
-  )
+  );
 }

@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { UserApi } from '@/api/UserApi'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FormValues, formSchema } from './schema'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { UserApi } from '@/api/UserApi';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { FormValues, formSchema } from './schema';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export default function RegisterForm() {
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -16,14 +16,14 @@ export default function RegisterForm() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-  })
+  });
 
   const submitForm = async (data: FormValues) => {
-    const result = await UserApi.createRegister(data)
+    const result = await UserApi.createRegister(data);
     if (result.ok) {
-      router.push('/login')
+      router.push('/login');
     }
-  }
+  };
   return (
     <>
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
@@ -121,5 +121,5 @@ export default function RegisterForm() {
         </div>
       </div>
     </>
-  )
+  );
 }

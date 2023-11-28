@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client'
-import { randomUUID } from 'crypto'
-import { NextRequest, NextResponse } from 'next/server'
+import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
-  const prisma = new PrismaClient()
+  const prisma = new PrismaClient();
   try {
-    const { username, email, password } = await request.json()
+    const { username, email, password } = await request.json();
     const user = await prisma.user.create({
       data: {
         id: randomUUID(),
@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
         password,
         name: username,
       },
-    })
-    return NextResponse.json(user.id)
+    });
+    return NextResponse.json(user.id);
   } finally {
-    prisma.$disconnect()
+    prisma.$disconnect();
   }
 }

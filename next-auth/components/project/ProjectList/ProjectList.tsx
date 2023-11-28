@@ -1,35 +1,36 @@
-'use client'
-import { Project, ProjectApi } from '@/api/ProjectApi'
-import { useCallback, useEffect, useState } from 'react'
-import { ProjectHeader } from './ProjectHeader'
-import { ProjectTask } from './ProjectTask'
-import { TaskApi } from '@/api/TaskApi'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+'use client';
+import { Project, delProject, getProjectsByUserId } from '@/api/ProjectApi';
+import { useCallback, useEffect, useState } from 'react';
+import { ProjectHeader } from '../ProjectHeader';
+import { ProjectTask } from '../ProjectTask';
+import { delTask, updateStatus } from '@/api/TaskApi';
 
 const ProjectList: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const fetchData = useCallback(async () => {
-    const result = await ProjectApi.getProjectsByUserId()
-    setProjects(result)
-  }, [])
+    const result = await getProjectsByUserId();
+    setProjects(result);
+  }, []);
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData])
+    fetchData();
+  }, [fetchData]);
 
   const deleteProjectHandler = async (projectId: string) => {
-    await ProjectApi.delProject(projectId)
-    await fetchData()
-  }
+    await delProject(projectId);
+    await fetchData();
+  };
 
   const deleteTaskHandler = async (taskId: string) => {
-    await TaskApi.delTask(taskId)
-    await fetchData()
-  }
+    await delTask(taskId);
+    await fetchData();
+  };
   const statusTaskHandler = async (taskId: string, done: boolean) => {
-    await TaskApi.updateStatus(taskId, done)
-    await fetchData()
-  }
+    await updateStatus(taskId, done);
+    await fetchData();
+  };
 
   return (
     <ul>
@@ -52,7 +53,7 @@ const ProjectList: React.FC = () => {
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};
 
-export default ProjectList
+export default ProjectList;

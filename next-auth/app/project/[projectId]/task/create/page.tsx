@@ -1,15 +1,15 @@
-import TaskForm from '@/components/task/TaskForm'
+import TaskForm from '@/components/task/TaskForm';
 
 interface Props {
   params: {
-    projectId: string
-  }
+    projectId: string;
+  };
 }
 const TaskCreatePage: React.FC<Props> = async ({ params: { projectId } }) => {
   return (
     <>
       <TaskForm projectId={projectId} />
     </>
-  )
-}
-export default TaskCreatePage
+  );
+};
+export default TaskCreatePage;

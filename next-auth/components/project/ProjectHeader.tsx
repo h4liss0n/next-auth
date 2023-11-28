@@ -1,11 +1,11 @@
-'use client'
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
+'use client';
+import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 
 interface Props {
-  id: string
-  name: string
-  onDelete: (projectId: string) => void
+  id: string;
+  name: string;
+  onDelete: (projectId: string) => void;
 }
 
 export const ProjectHeader: React.FC<Props> = ({ id, name, onDelete }) => {
@@ -56,5 +56,5 @@ export const ProjectHeader: React.FC<Props> = ({ id, name, onDelete }) => {
         </span>
       </div>
     </div>
-  )
-}
+  );
+};

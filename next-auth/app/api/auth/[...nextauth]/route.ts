@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client'
-import NextAuth, { NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import { PrismaClient } from '@prisma/client';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const OPTIONS: NextAuthOptions = {
   providers: [
@@ -19,11 +19,11 @@ export const OPTIONS: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const prisma = new PrismaClient()
+        const prisma = new PrismaClient();
         try {
           const user = await prisma.user.findUnique({
             where: { email: credentials?.email },
-          })
+          });
 
           if (user) {
             if (credentials?.password === user?.password) {
@@ -32,12 +32,12 @@ export const OPTIONS: NextAuthOptions = {
                 name: user?.name,
                 email: user?.email,
                 role: 'admin',
-              }
+              };
             }
           }
-          return null
+          return null;
         } finally {
-          prisma.$disconnect()
+          prisma.$disconnect();
         }
       },
     }),
@@ -51,22 +51,22 @@ export const OPTIONS: NextAuthOptions = {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
-        token.role = user.role
+        token.id = user.id;
+        token.role = user.role;
       }
-      return token
+      return token;
     },
     // If you want to use the role in client components
     async session({ session, token }) {
       if (session?.user) {
-        session.user.id = token.id
-        session.user.role = token.role
+        session.user.id = token.id;
+        session.user.role = token.role;
       }
-      return session
+      return session;
     },
   },
-}
+};
 
-const handler = NextAuth(OPTIONS)
+const handler = NextAuth(OPTIONS);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

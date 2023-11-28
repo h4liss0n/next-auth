@@ -1,22 +1,22 @@
-'use client'
-import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Image from 'next/image'
-import Photo from '../../../images/photo.jpeg'
-import Mark from '../../../images/mark.svg'
-import Link from 'next/link'
+'use client';
+import { Fragment } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import Photo from '../../../images/photo.jpeg';
+import Mark from '../../../images/mark.svg';
+import Link from 'next/link';
 
-import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react';
 
-const navigation = [{ name: 'Projects', href: '/project', current: false }]
+const navigation = [{ name: 'Projects', href: '/project', current: false }];
 
 function classNames(...classes: string[]): string {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
 export const Navbar: React.FC = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   return (
     <Disclosure as='nav' className='bg-gray-800'>
@@ -170,5 +170,5 @@ export const Navbar: React.FC = () => {
         </>
       )}
     </Disclosure>
-  )
-}
+  );
+};

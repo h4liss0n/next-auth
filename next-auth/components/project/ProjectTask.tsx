@@ -1,17 +1,17 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid'
-import Link from 'next/link'
+import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
+import Link from 'next/link';
 
 interface Task {
-  id: string
-  title: string
-  done: boolean
+  id: string;
+  title: string;
+  done: boolean;
 }
 
 interface Props {
-  projectId: string
-  onDelete: (id: string) => void
-  onStatus: (id: string, done: boolean) => void
-  tasks: Task[]
+  projectId: string;
+  onDelete: (id: string) => void;
+  onStatus: (id: string, done: boolean) => void;
+  tasks: Task[];
 }
 
 export const ProjectTask: React.FC<Props> = ({
@@ -27,7 +27,7 @@ export const ProjectTask: React.FC<Props> = ({
           No tasks
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -81,5 +81,5 @@ export const ProjectTask: React.FC<Props> = ({
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
