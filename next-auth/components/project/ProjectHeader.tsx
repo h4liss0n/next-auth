@@ -24,16 +24,18 @@ export const ProjectHeader: React.FC<Props> = ({ id, name, onDelete }) => {
             onClick={() => onDelete(id)}
             type='button'
             className='inline-flex items-center bg-white px-2 py-2 mr-1'
+            aria-label='delete project'
           >
             <TrashIcon
               className='-ml-0.5 mr-1.5 h-5 w-5 text-gray-400'
               aria-hidden='true'
-            />
+            ></TrashIcon>
           </button>
           <Link href={`/project/${id}`}>
             <button
               type='button'
               className='inline-flex items-center bg-white px-2 py-2 mr-1'
+              aria-label='edit project'
             >
               <PencilIcon
                 className='-ml-0.5 mr-1.5 h-5 w-5 text-gray-400'
@@ -45,6 +47,7 @@ export const ProjectHeader: React.FC<Props> = ({ id, name, onDelete }) => {
             <button
               type='button'
               className='inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+              aria-label='create new task'
             >
               <PlusIcon
                 className='-ml-0.5 mr-1.5 h-5 w-5 text-gray-400'

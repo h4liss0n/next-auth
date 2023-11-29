@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { Project, delProject, getProjectsByUserId } from '@/api/ProjectApi';
 import { useCallback, useEffect, useState } from 'react';
 import { ProjectHeader } from '../ProjectHeader';
-import { ProjectTask } from '../ProjectTask';
-import { delTask, updateStatus } from '@/api/TaskApi';
+import { ProjectTask } from '../ProjectTask/ProjectTask';
 
 const ProjectList: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -23,12 +21,7 @@ const ProjectList: React.FC = () => {
     await fetchData();
   };
 
-  const deleteTaskHandler = async (taskId: string) => {
-    await delTask(taskId);
-    await fetchData();
-  };
-  const statusTaskHandler = async (taskId: string, done: boolean) => {
-    await updateStatus(taskId, done);
+  const updateDataHandler = async () => {
     await fetchData();
   };
 
@@ -47,8 +40,7 @@ const ProjectList: React.FC = () => {
           <ProjectTask
             projectId={project.id}
             tasks={project.tasks}
-            onDelete={deleteTaskHandler}
-            onStatus={statusTaskHandler}
+            onUpdate={updateDataHandler}
           />
         </li>
       ))}

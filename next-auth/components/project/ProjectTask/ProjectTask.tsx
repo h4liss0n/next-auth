@@ -1,3 +1,4 @@
+import { delTask, updateStatus } from '@/api/TaskApi';
 import { PencilIcon, TrashIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 
@@ -9,21 +10,32 @@ interface Task {
 
 interface Props {
   projectId: string;
-  onDelete: (id: string) => void;
-  onStatus: (id: string, done: boolean) => void;
+  onUpdate: () => void;
   tasks: Task[];
 }
 
 export const ProjectTask: React.FC<Props> = ({
   projectId,
   tasks,
-  onDelete,
-  onStatus,
+  onUpdate,
 }) => {
+  const deleteTaskHandler = async (taskId: string) => {
+    await delTask(taskId);
+    onUpdate();
+  };
+
+  const statusTaskHandler = async (taskId: string, done: boolean) => {
+    await updateStatus(taskId, done);
+    onUpdate();
+  };
+
   if (tasks.length === 0) {
     return (
       <div className='flex-1 p-2'>
-        <p className='text-sm font-semibold leading-6 text-gray-900'>
+        <p
+          className='text-sm font-semibold leading-6 text-gray-900'
+          aria-label='no items'
+        >
           No tasks
         </p>
       </div>
@@ -49,13 +61,15 @@ export const ProjectTask: React.FC<Props> = ({
                   type='checkbox'
                   name='done'
                   checked={task.done}
-                  onChange={() => onStatus(task.id, !task.done)}
+                  aria-label={`task done ${task.id}`}
+                  onChange={() => statusTaskHandler(task.id, !task.done)}
                 />
               </div>
               <div className='p-2'>
                 <button
-                  onClick={() => onDelete(task.id)}
+                  onClick={() => deleteTaskHandler(task.id)}
                   type='button'
+                  aria-label={`task delete ${task.id}`}
                   className='inline-flex items-center bg-white px-2 py-2 mr-1'
                 >
                   <TrashIcon
@@ -68,6 +82,7 @@ export const ProjectTask: React.FC<Props> = ({
                   <button
                     type='button'
                     className='inline-flex items-center bg-white px-2 py-2 mr-1'
+                    aria-label={`task edit ${task.id}`}
                   >
                     <PencilIcon
                       className='-ml-0.5 mr-1.5 h-5 w-5 text-gray-400'
