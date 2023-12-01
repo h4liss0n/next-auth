@@ -20,10 +20,12 @@ export default function LoginForm() {
 
   const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    await signIn('credentials', {
-      ...formData,
-      callbackUrl: '/',
-    });
+    if (formData.email.length > 0) {
+      await signIn('credentials', {
+        ...formData,
+        callbackUrl: '/',
+      });
+    }
   };
 
   return (
@@ -73,6 +75,7 @@ export default function LoginForm() {
                   name='password'
                   type='password'
                   autoComplete='current-password'
+                  aria-label='password'
                   required
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                   value={formData.password}
