@@ -9,7 +9,10 @@ import Link from 'next/link';
 
 import { useSession } from 'next-auth/react';
 
-const navigation = [{ name: 'Projects', href: '/project', current: false }];
+const navigation = [
+  { name: 'Projects', href: '/project', current: false },
+  { name: 'Books', href: '/book', current: false },
+];
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ');
