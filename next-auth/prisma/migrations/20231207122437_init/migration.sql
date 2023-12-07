@@ -27,6 +27,14 @@ CREATE TABLE "Task" (
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Publisher" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+
+    CONSTRAINT "Publisher_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 

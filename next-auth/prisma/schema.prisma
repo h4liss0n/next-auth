@@ -33,3 +33,8 @@ model Task {
   project   Project @relation(fields: [projectId], references: [id])
   projectId String
 }
+
+model Publisher {
+  id        String  @id @default(uuid())
+  title     String  
+}

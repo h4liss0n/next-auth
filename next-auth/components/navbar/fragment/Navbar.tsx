@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react';
 const navigation = [
   { name: 'Projects', href: '/project', current: false },
   { name: 'Books', href: '/book', current: false },
+  { name: 'Publisher', href: '/publisher', current: false },
 ];
 
 function classNames(...classes: string[]): string {
